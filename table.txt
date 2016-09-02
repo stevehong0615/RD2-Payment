@@ -1,0 +1,11 @@
+create database payment default character set utf8;
+
+create table payment_data
+(
+    id int auto_increment not null primary key,
+    account varchar(50) not null,
+    actionDo varchar(50) not null,
+    datetime datetime not null,
+    money int null,
+    balance int not null
+) engine = InnoDB;
