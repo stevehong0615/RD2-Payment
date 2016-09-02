@@ -35,17 +35,15 @@ function searchAccountData($account)
     return $result;
 }
 
-function searchBalance($account)
+function searchResult()
 {
     $connect = new Connect;
 
-    $sql = "SELECT `balance` FROM `payment_data` WHERE `account` = :account ORDER BY `id` DESC FOR UPDATE";
+    $sql = "SELECT * FROM `game_result` ORDER BY `id` DESC";
 
     $data = $connect->db->prepare($sql);
-    $data->bindParam(':account', $account);
     $data->execute();
     $result = $data->fetchAll();
-    $result = $result[0]['balance'];
 
     return $result;
 }

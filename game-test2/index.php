@@ -50,6 +50,7 @@ if (isset($_POST['logout'])) {
     </form>
     <button id = "game1" type = "button">二字遊戲</button>
     <button id = "game2" type = "button">三字遊戲</button>
+    <hr>
     <div id = "gameDiv"><h2>歡迎光臨！ 請選擇您要玩的遊戲！</h2></div>
 </div>
 </body>
