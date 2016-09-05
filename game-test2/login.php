@@ -1,7 +1,10 @@
 <?php
 require_once 'model.php';
 ini_set('display_errors', true);
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 if ($_SESSION['account'] != null) {
     header("location:index.php");
     exit;
@@ -56,7 +59,7 @@ if (isset($_POST['btn'])) {
         <input type = "text" name = "account" value = "">
         <br><br>
         密碼：
-        <input type = "text" name = "pwd" value = "">
+        <input type = "password" name = "pwd" value = "">
         <br><br>
         <input type = "submit" name = "btn" value = "登入">
     </form>

@@ -1,5 +1,9 @@
 <?php
+require_once 'model.php';
 
+$account = $_SESSION['account'];
+
+$data = searchBetData($account);
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +22,14 @@
         <th>輸贏</th>
         <th>輸贏金額</th>
     </tr>
+    <?php foreach ($data as $value) { ?>
+        <tr>
+            <td><?php echo $value['id']; ?></td>
+            <td><?php echo $value['bet_content']; ?></td>
+            <td><?php echo $value['bet_money']; ?></td>
+            <td><?php echo $value['date']; ?></td>
+        </tr>
+    <?php } ?>
 </table>
 </body>
 </html>

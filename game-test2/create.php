@@ -1,7 +1,9 @@
 <?php
 require_once 'model.php';
 ini_set('display_errors', true);
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 if ($_SESSION['account'] != null) {
     header("location:index.php");
@@ -58,7 +60,7 @@ if (isset($_POST['btn'])) {
         <input type = "text" name = "account" value = "">
         <br><br>
         密碼：
-        <input type = "text" name = "pwd" value = "">
+        <input type = "password" name = "pwd" value = "">
         <br><br>
         金額：
         <input type = "text" name = "money" value = "" pattern = "[0-9]{1,15}">

@@ -1,7 +1,11 @@
 <?php
 require_once 'model.php';
 ini_set('display_errors', true);
-session_start();
+$account = $_SESSION['account'];
+
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 if ($_SESSION['account'] == null) {
     header("location:login.php");
@@ -33,6 +37,24 @@ if (isset($_POST['logout'])) {
             $("#game2").click(function(){
                 $('#gameDiv').load('game2.php');
             });
+
+            function getTotal(){
+                $.ajax({
+                    type:"GET",
+                    url:"balance.php",
+                    error:function(Xhr){
+                        console.log("error");
+                    },
+                    success:function(data){
+                        $("#joinLiveCount").text(data);
+
+                        setInterval(getTotal, 3000);
+                    }
+                });
+            }
+
+            getTotal();
+
         });
     </script>
 </head>
@@ -43,11 +65,12 @@ if (isset($_POST['logout'])) {
     </form>
     帳號：<?php echo $_SESSION['account']; ?>
     <br>
-    額度：<?php echo $balance . "元" ?>
+    <P id="joinLiveCount"></p>
     <br>
     <form method = "post" action = "log.php" target = "new">
         <input type = "submit" name = "btn" value = "下注歷史">
     </form>
+    <br>
     <button id = "game1" type = "button">二字遊戲</button>
     <button id = "game2" type = "button">三字遊戲</button>
     <hr>
