@@ -20,7 +20,7 @@ $result = searchResult();
     <?php foreach ($result as $value) { ?>
     <tr>
         <td><?php echo $value['date']; ?></td>
-        <td><?php echo $value['bet_result']; ?></td>
+        <td><?php echo $value['bet_result_1'] . $value['bet_result_2'] . $value['bet_result_3']; ?></td>
     </tr>
     <?php } ?>
 </table>

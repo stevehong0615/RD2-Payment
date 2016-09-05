@@ -15,4 +15,4 @@ $data->bindParam(':account', $account);
 $data->execute();
 $result = $data->fetchAll();
 $result = $result[0]['balance'];
-echo "額度：" . $result . "元";
+echo $result;

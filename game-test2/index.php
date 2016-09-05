@@ -37,24 +37,18 @@ if (isset($_POST['logout'])) {
             $("#game2").click(function(){
                 $('#gameDiv').load('game2.php');
             });
-
+        });
+        $(document).ready(function(){
             function getTotal(){
                 $.ajax({
                     type:"GET",
                     url:"balance.php",
-                    error:function(Xhr){
-                        console.log("error");
-                    },
                     success:function(data){
                         $("#joinLiveCount").text(data);
-
-                        setInterval(getTotal, 3000);
                     }
                 });
             }
-
             getTotal();
-
         });
     </script>
 </head>
@@ -63,13 +57,15 @@ if (isset($_POST['logout'])) {
     <form method = "post" action = "">
         <input type = "submit" name = "logout" value = "登出">
     </form>
-    帳號：<?php echo $_SESSION['account']; ?>
-    <br>
-    <P id="joinLiveCount"></p>
-    <br>
-    <form method = "post" action = "log.php" target = "new">
-        <input type = "submit" name = "btn" value = "下注歷史">
-    </form>
+    <?php if ($_SESSION['account'] != "admin") { ?>
+        帳號：<?php echo $_SESSION['account']; ?>
+        <br>
+        額度：<a id="joinLiveCount"></a> 元
+        <br>
+        <form method = "post" action = "log.php" target = "new">
+            <input type = "submit" name = "btn" value = "下注歷史">
+        </form>
+    <?php } ?>
     <br>
     <button id = "game1" type = "button">二字遊戲</button>
     <button id = "game2" type = "button">三字遊戲</button>

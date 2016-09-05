@@ -24,6 +24,7 @@ if (!isset($_SESSION)) {
                 var bet2 = $('input[name="bet2"]').val();
                 var bet3 = $('input[name="bet3"]').val();
                 $.post('betDiv.php',{bet1:bet1, bet2:bet2, bet3:bet3},function(data){
+                    $('#joinLiveCount').text(data);
                     alert('下注成功！');
                 });
             })
@@ -38,14 +39,14 @@ if (!isset($_SESSION)) {
     <?php if ($_SESSION['account'] != "admin") { ?>
         <br><h2>請下注（數字不能重複！）</h2><br>
         請輸入數字：
-        <input type = "text" id = "bet1" name = "bet1" value = "">
+        <input type = "text" name = "bet1" value = "" pattern = "[0-9]{1}">
         請輸入數字：
-        <input type = "text" name = "bet2" value = "">
+        <input type = "text" name = "bet2" value = "" pattern = "[0-9]{1}">
         請輸入數字：
-        <input type = "text" name = "bet3" value = "">
+        <input type = "text" name = "bet3" value = "" pattern = "[0-9]{1}">
         <br>
         <input type = "submit" name = "btnBet" id = "btnBet" value = "確認下注">
-    <?php } ?>
+        <?php } ?>
 
     <?php if ($_SESSION['account'] == "admin") { ?>
         <br><h2>點選開獎</h2><br>

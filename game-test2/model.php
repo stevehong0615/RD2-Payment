@@ -54,17 +54,19 @@ function searchResult()
 }
 
 // 下注
-function insertBet($account, $betContent, $betMoney, $date)
+function insertBet($account, $betContent1, $betContent2, $betContent3, $betMoney, $date)
 {
     $connect = new Connect;
 
     $sql = "INSERT INTO `game_money`
-        (`account`, `bet_content`, `bet_money`, `date`)
-        VALUES (:account, :betContent, :betMoney, :date)";
+        (`account`, `bet_content_1`, `bet_content_2`, `bet_content_3`, `bet_money`, `date`)
+        VALUES (:account, :betContent1, :betContent2, :betContent3, :betMoney, :date)";
 
     $data = $connect->db->prepare($sql);
     $data->bindParam(':account', $account);
-    $data->bindParam(':betContent', $betContent);
+    $data->bindParam(':betContent1', $betContent1);
+    $data->bindParam(':betContent2', $betContent2);
+    $data->bindParam(':betContent3', $betContent3);
     $data->bindParam(':betMoney', $betMoney);
     $data->bindParam(':date', $date);
     $data->execute();
@@ -105,16 +107,18 @@ function updateBalance($account, $balance)
 }
 
 // 開獎
-function insertResult($betResult, $date)
+function insertResult($betResult1, $betResult2, $betResult3, $date)
 {
     $connect = new Connect;
 
     $sql = "INSERT INTO `game_result`
-        (`bet_result`, `date`)
-        VALUES (:betResult, :date)";
+        (`bet_result_1`, `bet_result_2`, `bet_result_3`, `date`)
+        VALUES (:betResult1, :betResult2, :betResult3, :date)";
 
     $data = $connect->db->prepare($sql);
-    $data->bindParam(':betResult', $betResult);
+    $data->bindParam(':betResult1', $betResult1);
+    $data->bindParam(':betResult2', $betResult2);
+    $data->bindParam(':betResult3', $betResult3);
     $data->bindParam(':date', $date);
     $data->execute();
 

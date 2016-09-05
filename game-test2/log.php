@@ -25,7 +25,7 @@ $data = searchBetData($account);
     <?php foreach ($data as $value) { ?>
         <tr>
             <td><?php echo $value['id']; ?></td>
-            <td><?php echo $value['bet_content']; ?></td>
+            <td><?php echo $value['bet_content_1'] . $value['bet_content_2'] . $value['bet_content_3']; ?></td>
             <td><?php echo $value['bet_money']; ?></td>
             <td><?php echo $value['date']; ?></td>
         </tr>

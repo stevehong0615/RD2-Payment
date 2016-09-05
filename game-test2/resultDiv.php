@@ -15,10 +15,11 @@ for ($i = 1; $i <= $count; $i++) {
     }
 }
 
-$betResult = $rand[0] . $rand[1] . $rand[2];
+$betResult1 = $rand[0];
+$betResult2 = $rand[1];
+$betResult3 = $rand[2];
 
-insertResult($betResult, $date);
-
+insertResult($betResult1, $betResult2, $betResult3, $date);
 ?>
 
 <!DOCTYPE html>
