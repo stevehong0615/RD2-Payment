@@ -1,10 +1,12 @@
 <?php
 require_once 'model.php';
 ini_set('display_errors', true);
+
 if (!isset($_SESSION)) {
     session_start();
 }
 
+$date = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -34,16 +36,16 @@ if (!isset($_SESSION)) {
 <body>
 <div>
     <form method = "post" action = "result.php" target = "new">
-        <input type = "submit" name = "btn" value = "開講號碼">
+        <input type = "submit" name = "btn" value = "開獎號碼">
     </form>
     <?php if ($_SESSION['account'] != "admin") { ?>
         <br><h2>請下注（數字不能重複！）</h2><br>
         請輸入數字：
-        <input type = "text" name = "bet1" value = "" pattern = "[0-9]{1}">
+        <input type = "text" name = "bet1" value = "">
         請輸入數字：
-        <input type = "text" name = "bet2" value = "" pattern = "[0-9]{1}">
+        <input type = "text" name = "bet2" value = "">
         請輸入數字：
-        <input type = "text" name = "bet3" value = "" pattern = "[0-9]{1}">
+        <input type = "text" name = "bet3" value = "">
         <br>
         <input type = "submit" name = "btnBet" id = "btnBet" value = "確認下注">
         <?php } ?>

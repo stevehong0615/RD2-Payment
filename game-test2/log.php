@@ -28,6 +28,7 @@ $data = searchBetData($account);
             <td><?php echo $value['bet_content_1'] . $value['bet_content_2'] . $value['bet_content_3']; ?></td>
             <td><?php echo $value['bet_money']; ?></td>
             <td><?php echo $value['date']; ?></td>
+            <td><?php echo $value['result']; ?></td>
         </tr>
     <?php } ?>
 </table>

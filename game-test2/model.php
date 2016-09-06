@@ -1,6 +1,7 @@
 <?php
 require_once 'connect.php';
 ini_set('display_errors', true);
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -54,13 +55,13 @@ function searchResult()
 }
 
 // 下注
-function insertBet($account, $betContent1, $betContent2, $betContent3, $betMoney, $date)
+function insertBet($account, $betContent1, $betContent2, $betContent3, $betMoney, $date, $result)
 {
     $connect = new Connect;
 
     $sql = "INSERT INTO `game_money`
-        (`account`, `bet_content_1`, `bet_content_2`, `bet_content_3`, `bet_money`, `date`)
-        VALUES (:account, :betContent1, :betContent2, :betContent3, :betMoney, :date)";
+        (`account`, `bet_content_1`, `bet_content_2`, `bet_content_3`, `bet_money`, `date`, `result`)
+        VALUES (:account, :betContent1, :betContent2, :betContent3, :betMoney, :date, :result)";
 
     $data = $connect->db->prepare($sql);
     $data->bindParam(':account', $account);
@@ -69,6 +70,7 @@ function insertBet($account, $betContent1, $betContent2, $betContent3, $betMoney
     $data->bindParam(':betContent3', $betContent3);
     $data->bindParam(':betMoney', $betMoney);
     $data->bindParam(':date', $date);
+    $data->bindParam(':result', $result);
     $data->execute();
 
     return true;
@@ -107,18 +109,19 @@ function updateBalance($account, $balance)
 }
 
 // 開獎
-function insertResult($betResult1, $betResult2, $betResult3, $date)
+function insertResult($betResult1, $betResult2, $betResult3, $start, $date)
 {
     $connect = new Connect;
 
     $sql = "INSERT INTO `game_result`
-        (`bet_result_1`, `bet_result_2`, `bet_result_3`, `date`)
-        VALUES (:betResult1, :betResult2, :betResult3, :date)";
+        (`bet_result_1`, `bet_result_2`, `bet_result_3`, `startdate`, `date`)
+        VALUES (:betResult1, :betResult2, :betResult3, :start, :date)";
 
     $data = $connect->db->prepare($sql);
     $data->bindParam(':betResult1', $betResult1);
     $data->bindParam(':betResult2', $betResult2);
     $data->bindParam(':betResult3', $betResult3);
+    $data->bindParam(':start', $start);
     $data->bindParam(':date', $date);
     $data->execute();
 
@@ -139,4 +142,87 @@ function searchBalance($account)
     $result = $result[0]['balance'];
 
     return $result;
+}
+
+// 搜尋本期開獎下注歷史
+function searchAllBet($date, $start)
+{
+    $connect = new Connect;
+
+    $sql = "SELECT * FROM `game_money` WHERE `date` <= :date AND `date` >= :start";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':date', $date);
+    $data->bindParam(':start', $start);
+    $data->execute();
+    $result = $data->fetchAll();
+
+    return $result;
+}
+
+// 二字定位輸贏
+function updateSite($id, $resultSite)
+{
+    $connect = new Connect;
+
+    $sql = "UPDATE `game_money`
+        SET `result` = :result
+        WHERE `id` = :id";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':id', $id);
+    $data->bindParam(':result', $resultSite);
+    $data->execute();
+
+    return true;
+}
+
+// log by id
+function searchBetIdData($id)
+{
+    $connect = new Connect;
+
+    $sql = "SELECT * FROM `game_money` WHERE `id` = :id";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':id', $id);
+    $data->execute();
+    $result = $data->fetchAll();
+
+    return $result;
+}
+
+// 二字組合輸贏
+function updateMix($id, $resultMix)
+{
+    $connect = new Connect;
+
+    $sql = "UPDATE `game_money`
+        SET `result` = :result
+        WHERE `id` = :id";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':id', $id);
+    $data->bindParam(':result', $resultMix);
+    $data->execute();
+
+    return true;
+}
+
+// 未中獎
+function updateLose($start, $date, $resultLose)
+{
+    $connect = new Connect;
+
+    $sql = "UPDATE `game_money`
+        SET `result` = :result
+        WHERE `date` >= :start AND `date` <= :date";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':start', $start);
+    $data->bindParam(':date', $date);
+    $data->bindParam(':result', $resultLose);
+    $data->execute();
+
+    return true;
 }

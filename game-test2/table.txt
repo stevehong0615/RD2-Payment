@@ -1,0 +1,35 @@
+create database payment default character set utf8;
+
+create table account_data
+(
+    id int auto_increment not null primary key,
+    account varchar(50) not null,
+    password varchar(50) not null,
+    datetime datetime not null,
+    balance int not null
+) engine = InnoDB;
+
+
+create table game_money
+(
+    id int auto_increment not null primary key,
+    account varchar(50) not null,
+    bet_content_1 varchar(10) not null,
+    bet_content_2 varchar(10) not null,
+    bet_content_3 varchar(10) not null,
+    bet_money int not null,
+    date date not null,
+    result varchar(50) not null,
+    result_money int not null
+) engine = InnoDB;
+
+
+create table game_result
+(
+    id int auto_increment not null primary key,
+    bet_result_1 varchar(10) not null,
+    bet_result_2 varchar(10) not null,
+    bet_result_3 varchar(10) not null,
+    startdate date not null,
+    date date not null
+) engine = InnoDB;
