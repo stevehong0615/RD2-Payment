@@ -10,17 +10,15 @@ $resultSite = "二字定位（贏）";
 $resultMix = "二字組合（贏）";
 $resultLose = "未中獎（輸）";
 
-//for ($i = 1; $i <= $count; $i++) {
-//    $randval = mt_rand(0, 9);
-//    if (in_array($randval, $rand)) {
-//        $i--;
-//    } else {
-//        $rand[] = $randval;
-//    }
-//}
-$rand[0]= 0;
-$rand[1]= 1;
-$rand[2]= 2;
+for ($i = 1; $i <= $count; $i++) {
+    $randval = mt_rand(0, 9);
+    if (in_array($randval, $rand)) {
+        $i--;
+    } else {
+        $rand[] = $randval;
+    }
+}
+
 $betResult1 = $rand[0];
 $betResult2 = $rand[1];
 $betResult3 = $rand[2];
