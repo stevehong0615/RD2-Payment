@@ -1,51 +1,41 @@
 <?php
+set_time_limit(0);
+
 require_once 'model.php';
 
-//if (isset($_POST['btn'])) {
+mt_srand((double)microtime() * 1000000);
+$rand = Array();
+$count = 3;
+$date = date("Y-m-d");
+$num = 1;
+$num = str_pad($num, 3, '0', STR_PAD_LEFT);
+$serialNumber = $date . " - " . $num;
+$start = date("Y-m-d h:i:s");
+$wait = date("Y-m-d h:i:s", strtotime('+60 sec'));
+$next = date("Y-m-d h:i:s", strtotime('+20 sec'));
+$resultSite = "二字定位（贏）";
+$resultMix = "二字組合（贏）";
+$resultLose = "未中獎（輸）";
 
-        mt_srand((double)microtime() * 1000000);
-        $rand = Array();
-        $count = 3;
-        $date = date("Y-m-d");
-        $num = 1;
-        $num = str_pad($num, 3, '0', STR_PAD_LEFT);
-        $serialNumber = $date . " - " . $num;
-        $start = date("Y-m-d h:i:s");
-        $wait = date("Y-m-d h:i:s", strtotime('+60 sec'));
-        $next = date("Y-m-d h:i:s", strtotime('+10 min'));
-        $resultSite = "二字定位（贏）";
-        $resultMix = "二字組合（贏）";
-        $resultLose = "未中獎（輸）";
+for ($i = 1; $i <= $count; $i++) {
+    $randval = mt_rand(0, 9);
+    if (in_array($randval, $rand)) {
+        $i--;
+    } else {
+        $rand[] = $randval;
+    }
+}
 
-        for ($i = 1; $i <= $count; $i++) {
-            $randval = mt_rand(0, 9);
-            if (in_array($randval, $rand)) {
-                $i--;
-            } else {
-                $rand[] = $randval;
-            }
-        }
-        echo "123";
-//echo strtotime($start) . "<br>";
-//    echo strtotime($wait) . "<br>";
-//    echo strtotime($next);
-        $betResult1 = $rand[0];
-        $betResult2 = $rand[1];
-        $betResult3 = $rand[2];
-        $betResult = array($betResult1, $betResult2, $betResult3);
-//        echo $serialNumber;
-//        echo $rand[0];
-//        echo $rand[1];
-//        echo $rand[2];
-//        echo $start;
-//        echo $wait;
-//        echo $next;
-//while (true) {
-//    echo "5秒";
-//        sleep(5);
-//    }
-//}
-//insertResult($betResult1, $betResult2, $betResult3, $start, $date);
+$betResult1 = $rand[0];
+$betResult2 = $rand[1];
+$betResult3 = $rand[2];
+$betResult = array($betResult1, $betResult2, $betResult3);
+
+$betResult =  json_encode($betResult);
+
+insertResult($serialNumber, $betResult, $start, $wait, $next);
+
+
 //
 //$allBet = searchAllBet($date, $start);
 //
@@ -124,6 +114,7 @@ require_once 'model.php';
     <title>開獎號碼</title>
 </head>
 <body>
+<a id = "aaa"></a>
 <form method = "post" action = "">
     <input type = "submit" name = "btn" value = "開獎!">
 </form>

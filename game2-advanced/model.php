@@ -1,20 +1,21 @@
 <?php
 require_once 'connect.php';
 
-// 新增帳號
-function insertAccount($account, $pwd, $datetime, $balance)
+// 開獎
+function insertResult($serialNumber, $betResult, $start, $wait, $next)
 {
     $connect = new Connect;
 
-    $sql = "INSERT INTO `account_data`
-        (`account`, `password`, `datetime`, `balance`)
-        VALUES (:account, :password, :datetime, :balance)";
+    $sql = "INSERT INTO `game_result`
+        (`serial`, `bet_result`, `startdate`, `waitdate`, `nextdate`)
+        VALUES (:serial, :betResult, :startdate, :waitdate, :nextdate)";
 
     $data = $connect->db->prepare($sql);
-    $data->bindParam(':account', $account);
-    $data->bindParam(':password', $pwd);
-    $data->bindParam(':datetime', $datetime);
-    $data->bindParam(':balance', $balance);
+    $data->bindParam(':serial', $serialNumber);
+    $data->bindParam(':betResult', $betResult);
+    $data->bindParam(':startdate', $start);
+    $data->bindParam(':waitdate', $wait);
+    $data->bindParam(':nextdate', $next);
     $data->execute();
 
     return true;
