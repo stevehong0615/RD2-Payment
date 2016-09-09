@@ -1,6 +1,6 @@
 <?php
 require_once 'model.php';
-ini_set('display_errors', true);
+
 $account = $_SESSION['account'];
 
 if (!isset($_SESSION)) {
@@ -20,7 +20,6 @@ if (isset($_POST['logout'])) {
     header("location:login.php");
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>

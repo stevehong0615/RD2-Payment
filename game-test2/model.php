@@ -1,6 +1,5 @@
 <?php
 require_once 'connect.php';
-ini_set('display_errors', true);
 
 if (!isset($_SESSION)) {
     session_start();
