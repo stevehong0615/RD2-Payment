@@ -52,7 +52,7 @@ $result = searchLottery();
 $check = searchCheck();
 $check = $check[0]['check'];
 
-if ($check < 40) {
+if ($check < 5) {
     $endtime = $result[0]['nextdate'];
     $endtime = strtotime($endtime);
     $now = date("Y-m-d h:i:s");
@@ -61,7 +61,10 @@ if ($check < 40) {
     updateCheck($check);
     echo $endtime - $now + 1;
 } else {
-    echo "本日結束";
+    echo "本日結束！";
+    $check = 1;
+    updateCheck($check);
+    exit;
 }
 
 //if ($check[0]['check'] == 1) {

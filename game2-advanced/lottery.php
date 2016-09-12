@@ -12,7 +12,7 @@ $num = str_pad($num, 3, '0', STR_PAD_LEFT);
 $serialNumber = $date . " - " . $num;
 $start = date("Y-m-d h:i:s");
 $wait = date("Y-m-d h:i:s", strtotime('+60 sec'));
-$next = date("Y-m-d h:i:s", strtotime('+20 sec'));
+$next = date("Y-m-d h:i:s", strtotime('+10 sec'));
 $resultSite = "二字定位（贏）";
 $resultMix = "二字組合（贏）";
 $resultLose = "未中獎（輸）";
@@ -33,8 +33,9 @@ $betResult = array($betResult1, $betResult2, $betResult3);
 
 $betResult =  json_encode($betResult);
 
-insertResult($serialNumber, $betResult, $start, $wait, $next);
+//insertResult($serialNumber, $betResult, $start, $wait, $next);
 
+$result = searchResult();
 
 //
 //$allBet = searchAllBet($date, $start);
@@ -114,27 +115,23 @@ insertResult($serialNumber, $betResult, $start, $wait, $next);
     <title>開獎號碼</title>
 </head>
 <body>
-<a id = "aaa"></a>
-<form method = "post" action = "">
-    <input type = "submit" name = "btn" value = "開獎!">
-</form>
 <table style="border:3px #FFAC55 double;padding:5px;" rules="all" cellpadding='5';>
     <tr>
         <th>期數</th>
-        <th colspan = "3">開獎號碼</th>
+        <th>開獎號碼</th>
         <th>開獎時間</th>
         <th>下注開始時間</th>
         <th>下次開獎時間</th>
     </tr>
+    <?php foreach($result as $value) { ?>
     <tr>
-        <td><?php echo $serialNumber; ?></td>
-        <td><?php echo $rand[0]; ?></td>
-        <td><?php echo $rand[1]; ?></td>
-        <td><?php echo $rand[2]; ?></td>
-        <td><?php echo $start; ?></td>
-        <td><?php echo $wait; ?></td>
-        <td><?php echo $next; ?></td>
+        <td><?php echo $value['serial']; ?></td>
+        <td><?php echo $value['bet_result']; ?></td>
+        <td><?php echo $value['startdate']; ?></td>
+        <td><?php echo $value['waitdate']; ?></td>
+        <td><?php echo $value['nextdate'] ?></td>
     </tr>
+    <?php } ?>
 </table>
 </body>
 </html>

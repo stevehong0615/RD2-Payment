@@ -21,15 +21,14 @@ function insertResult($serialNumber, $betResult, $start, $wait, $next)
     return true;
 }
 
-// 搜尋帳號資料
-function searchAccountData($account)
+// 搜尋開獎資料
+function searchResult()
 {
     $connect = new Connect;
 
-    $sql = "SELECT * FROM `account_data` WHERE `account` = :account";
+    $sql = "SELECT * FROM `game_result`";
 
     $data = $connect->db->prepare($sql);
-    $data->bindParam(':account', $account);
     $data->execute();
     $result = $data->fetchAll();
 
