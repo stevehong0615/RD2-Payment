@@ -4,24 +4,54 @@ require_once 'connect.php';
 
 function lottery()
 {
-    mt_srand((double)microtime() * 1000000);
-    $count = 3;
     $num = 1;
-    $sleepTime = 5;
-    $lotteryCount = 5;$connect = new Connect;
+    $lotteryCount = 5;
+    $date = date("Y-m-d");
+    $start = time();
+    $wait = $start + 5;
+    $next = $start + 10;
+    $betResult = "未開獎";
 
-    while ($lotteryCount != 0) {
+    $connect = new Connect;
 
-        $rand = Array();
-        $date = date("Y-m-d");
+    for ($i = 0; $i < $lotteryCount; $i++) {
         $num = str_pad($num, 3, '0', STR_PAD_LEFT);
         $serialNumber = $date . " - " . $num;
-        $start = date("Y-m-d h:i:s");
-        $wait = date("Y-m-d h:i:s", strtotime('+60 sec'));
-        $next = date("Y-m-d h:i:s", strtotime('+10 sec'));
 
-        for ($i = 1; $i <= $count; $i++) {
+        $sql = "INSERT INTO `game_result`
+            (`serial`, `bet_result`, `startdate`, `waitdate`, `nextdate`)
+            VALUES (:serial, :betResult, :startdate, :waitdate, :nextdate)";
+
+        $data = $connect->db->prepare($sql);
+        $data->bindParam(':serial', $serialNumber);
+        $data->bindParam(':betResult', $betResult);
+        $data->bindParam(':startdate', $start);
+        $data->bindParam(':waitdate', $wait);
+        $data->bindParam(':nextdate', $next);
+        $data->execute();
+
+        $num++;
+        $start = $next;
+        $wait = $start + 5;
+        $next = $start + 10;
+    }
+
+    $countRand = 3;
+    $count = 0;
+    $gameCount = 5;
+    $num = 0;
+
+    while ($count < $gameCount) {
+        $count++;
+        $num++;
+        $num = str_pad($num, 3, '0', STR_PAD_LEFT);
+        $serialNumber = $date . " - " . $num;
+        mt_srand((double)microtime() * 1000000);
+        $rand = Array();
+
+        for ($i = 1; $i <= $countRand; $i++) {
             $randval = mt_rand(0, 9);
+
             if (in_array($randval, $rand)) {
                 $i--;
             } else {
@@ -31,27 +61,32 @@ function lottery()
 
         $betResult = json_encode($rand);
 
-        if ($lotteryCount > 0) {
+        // 開獎
+        $sql = "UPDATE `game_result`
+            SET `bet_result` = :betResult
+            WHERE `serial` = :serial";
 
+        $data = $connect->db->prepare($sql);
+        $data->bindParam(':betResult', $betResult);
+        $data->bindParam(':serial', $serialNumber);
+        $data->execute();
 
-            $sql = "INSERT INTO `game_result`
-                (`serial`, `bet_result`, `startdate`, `waitdate`, `nextdate`)
-                VALUES (:serial, :betResult, :startdate, :waitdate, :nextdate)";
+        // 搜尋時間
+        $sql = "SELECT * FROM `game_result` WHERE `serial` = :serial";
 
-            $data = $connect->db->prepare($sql);
-            $data->bindParam(':serial', $serialNumber);
-            $data->bindParam(':betResult', $betResult);
-            $data->bindParam(':startdate', $start);
-            $data->bindParam(':waitdate', $wait);
-            $data->bindParam(':nextdate', $next);
-            $data->execute();
+        $data = $connect->db->prepare($sql);
+        $data->bindParam(':serial', $serialNumber);
+        $data->execute();
+        $result = $data->fetchAll();
 
-            $num++;
-            $lotteryCount--;
-        }
+        $sleep_time = $result[0]['waitdate'] - time();
+        sleep($sleep_time);
 
-        sleep($sleepTime);
-    }$connect = null;
+        $sleep_time = $result[0]['nextdate'] - time();
+        sleep($sleep_time);
+    }
+
+    $connect = null;
 }
 
 lottery();

@@ -1,6 +1,20 @@
 <?php
-require_once 'model.php';
+$end_time = time() + 10;
+$game_count = 5;
 
-$result = searchResult();
+$count = 0;
+while($count <= $game_count){
+    $count ++;
+    echo "第".($count)."期開始下注\n";
+    $sleep_time = $end_time - time();
+    sleep($sleep_time);
 
-var_dump($result);
+    echo "時間到".($count)."期開獎\n";
+    flush();
+    echo "休息時間 10s\n";
+    flush();
+    sleep(10);
+    echo "取得".($count+1)."期結束時間\n";
+    flush();
+    $end_time = time() + 10;
+}
