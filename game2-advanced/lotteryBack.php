@@ -2,6 +2,8 @@
 set_time_limit(0);
 require_once 'connect.php';
 
+$date = date("Y-m-d");
+
 function lottery()
 {
     $num = 1;
@@ -19,8 +21,8 @@ function lottery()
         $serialNumber = $date . " - " . $num;
 
         $sql = "INSERT INTO `game_result`
-            (`serial`, `bet_result`, `startdate`, `waitdate`, `nextdate`)
-            VALUES (:serial, :betResult, :startdate, :waitdate, :nextdate)";
+            (`serial`, `bet_result`, `startdate`, `waitdate`, `nextdate`, `today`)
+            VALUES (:serial, :betResult, :startdate, :waitdate, :nextdate, :today)";
 
         $data = $connect->db->prepare($sql);
         $data->bindParam(':serial', $serialNumber);
@@ -28,6 +30,7 @@ function lottery()
         $data->bindParam(':startdate', $start);
         $data->bindParam(':waitdate', $wait);
         $data->bindParam(':nextdate', $next);
+        $data->bindParam(':today', $date);
         $data->execute();
 
         $num++;
@@ -79,9 +82,6 @@ function lottery()
         $data->execute();
         $result = $data->fetchAll();
 
-        $sleep_time = $result[0]['waitdate'] - time();
-        sleep($sleep_time);
-
         $sleep_time = $result[0]['nextdate'] - time();
         sleep($sleep_time);
     }
@@ -89,4 +89,17 @@ function lottery()
     $connect = null;
 }
 
-lottery();
+$connect = new Connect;
+
+$sql = "SELECT * FROM `game_result` WHERE `today` = :date";
+
+$data = $connect->db->prepare($sql);
+$data->bindParam(':date', $date);
+$data->execute();
+$todayBet = $data->fetchAll();
+
+if ($todayBet != null) {
+    echo "本日開獎結束!";
+} else {
+    lottery();
+}
