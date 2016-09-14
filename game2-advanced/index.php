@@ -1,11 +1,11 @@
 <?php
 require_once 'model.php';
 
-$account = $_SESSION['account'];
-
 if (!isset($_SESSION)) {
     session_start();
 }
+$account = $_SESSION['account'];
+
 
 if ($_SESSION['account'] == null) {
     header("location:login.php");
@@ -36,18 +36,19 @@ if (isset($_POST['logout'])) {
             $('#gameDiv').load('game2.php');
         });
     });
-        $(document).ready(function(){
-            function getTotal(){
-                $.ajax({
-                    type:"GET",
-                    url:"balance.php",
-                    success:function(data){
-                    $("#joinLiveCount").text(data);
-                }
-                });
+
+    $(document).ready(function(){
+        function getTotal(){
+            $.ajax({
+                type:"GET",
+                url:"balance.php",
+                success:function(data){
+                $("#joinLiveCount").text(data);
             }
-            getTotal();
-        });
+            });
+        }
+        getTotal();
+    });
     </script>
 </head>
 <body style = "font-size:180%;" background = "images/White.jpg">
@@ -66,7 +67,6 @@ if (isset($_POST['logout'])) {
                 <input type = "submit" name = "logout" value = "登出" class="btn btn-primary">
             </form>
 
-            <?php if ($_SESSION['account'] != "admin") { ?>
             帳號：<?php echo $_SESSION['account']; ?>
             <br>
             額度：<font id = "joinLiveCount" ></font> 元
@@ -74,7 +74,6 @@ if (isset($_POST['logout'])) {
             <form method = "post" action = "log.php" target = "new">
                 <input type = "submit" name = "btn" value = "下注歷史" class = "btn btn-primary">
             </form>
-            <?php } ?>
         </div>
     </div>
     <br>

@@ -30,6 +30,30 @@ function searchTodayResult($date)
     return $result;
 }
 
+function getNotYetOpen($date){
+    $sql = "SELECT * FROM `game_result` WHERE `today` = :date AND `bet_result` = '未開獎' ORDER BY `id` LIMIT 1";
+    $connect = new Connect;
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':date', $date);
+    $data->execute();
+    $result = $data->fetch();
+
+    return $result;
+}
+
+function checkIsRunning($date){
+    $sql = "SELECT * FROM `game_result` WHERE `today` = :date";
+    $connect = new Connect;
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':date', $date);
+    $data->execute();
+    $result = $data->fetchAll();
+
+    return sizeOf($result) <= 0 ? false: true ;
+}
+
 // 搜尋account
 function searchAccountData($account)
 {
