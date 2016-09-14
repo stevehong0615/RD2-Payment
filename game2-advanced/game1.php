@@ -28,50 +28,22 @@ if (!isset($_SESSION)) {
             $('#betResultDiv').load('result.php');
             timer();
 
+            function timer() {
+                $.get("computeTime.php", function (data) {
+                    var data = $.parseJSON(data);
 
-            function timer()
-            {
-                $.get("computeTime.php", function(data){
+                    console.log(data);
+                    var msg = data.msg.replace("{sec}", data.sec);
 
-                    $('#showtime').text(data);
+                    $('#showtime').text(msg);
                     $('#betResultDiv').load('result.php');
-                    if(data >= 0){
-                        setTimeout(function() {
+                    if (data.sec >= 0) {
+                        setTimeout(function () {
                             timer();
                         }, 1000);
                     }
-/*
-                    if (data == '本日尚未開獎！') {
-                        $('#showtime').text(data);
-                    }else if (data < 0 ) {
-                        $('#showtime').text('本日開獎結束！');
-                    } else {
-                        $('#showtime').text(data);
-                        $('#betResultDiv').load('result.php');
-
-                        setTimeout(function() {
-                            timer();
-                        }, 1000);
-                    }*/
                 });
             }
-
-//            function counter(sec){
-//                sec--;
-//                $('#showtime').text(sec);
-//
-//                if (sec > 0) {
-//                    setTimeout(function(){
-//                        counter(sec);
-//                    }, 1000);
-//                }
-//                if (sec <= 0) {
-//                    $('#betResultDiv').load('result.php');
-//                    setTimeout(function() {
-//                        timer();
-//                    }, 1000);
-//                }
-//            }
         });
     </script>
 </head>

@@ -5,14 +5,21 @@ $date = date("Y-m-d");
 $result = getNotYetOpen($date);
 $isRunning = checkIsRunning($date);
 
+$data = [
+    'msg' => '',
+    'sec' => '-1'
+];
+
 if (!$isRunning) {
-    echo "本日尚未開獎！";
-    exit;
+    $data['msg'] = "本日尚未開獎！";
 } else {
     if($result['nextdate'] - time() - 10 < 0){
-        echo "本日開獎結束！";
+        $data['msg'] = "本日開獎結束！";
     }else{
-        echo $result['nextdate'] - time() - 10;
+        $counter = $result['nextdate'] - time() - 10;
+        $data['msg'] = "下期開獎時間剩餘 {sec} 秒";
+        $data['sec'] = $counter;
     }
-
 }
+
+echo json_encode($data);
