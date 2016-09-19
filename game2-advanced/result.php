@@ -17,6 +17,7 @@ $result = searchTodayResult($date);
         <tr>
             <th>開獎期號</th>
             <th>開獎號碼</th>
+            <th>兌獎區間</th>
         </tr>
         <?php
         foreach ($result as $value) {
@@ -25,6 +26,15 @@ $result = searchTodayResult($date);
         <tr class="danger">
             <td><?php echo $value['serial']; ?></td>
             <td><?php echo $betResult[0] . $betResult[1] . $betResult[2]; ?></td>
+            <td>
+                <?php
+                    $start = $value['startdate'] - 30;
+                    $start = date("Y-m-d h:i:s", $start);
+                    $end = $value['startdate'] - 10;
+                    $end = date("Y-m-d h:i:s",$end);
+                    echo $start . "~" . $end;
+                ?>
+            </td>
         </tr>
         <?php } ?>
     </table>

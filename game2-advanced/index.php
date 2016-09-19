@@ -41,7 +41,7 @@ if (isset($_POST['logout'])) {
         function getTotal(){
             $.ajax({
                 type:"GET",
-                url:"balance.php",
+                url:"curlBalance.php",
                 success:function(data){
                 $("#joinLiveCount").text(data);
             }

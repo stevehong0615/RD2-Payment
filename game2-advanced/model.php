@@ -102,3 +102,23 @@ function searchBetData($account)
 
     return $result;
 }
+
+// 下注
+function insertBet($account, $betRand, $betMoney, $time, $result)
+{
+    $connect = new Connect;
+
+    $sql = "INSERT INTO `game_money`
+        (`account`, `bet_content`, `bet_money`, `time`, `result`)
+        VALUES (:account, :betRand, :betMoney, :time, :result)";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':account', $account);
+    $data->bindParam(':betRand', $betRand);
+    $data->bindParam(':betMoney', $betMoney);
+    $data->bindParam(':time', $time);
+    $data->bindParam(':result', $result);
+    $data->execute();
+
+    return true;
+}

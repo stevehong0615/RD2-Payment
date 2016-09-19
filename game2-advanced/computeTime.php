@@ -13,10 +13,10 @@ $data = [
 if (!$isRunning) {
     $data['msg'] = "本日尚未開獎！";
 } else {
-    if($result['nextdate'] - time() - 10 < 0){
+    if($result['nextdate'] - time() - 30 < 0){
         $data['msg'] = "本日開獎結束！";
     }else{
-        $counter = $result['nextdate'] - time() - 10;
+        $counter = $result['nextdate'] - time() - 30;
         $data['msg'] = "下期開獎時間剩餘 {sec} 秒";
         $data['sec'] = $counter;
     }

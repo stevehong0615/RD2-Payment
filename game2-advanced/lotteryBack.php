@@ -7,11 +7,11 @@ $date = date("Y-m-d");
 function lottery()
 {
     $num = 1;
-    $lotteryCount = 5;
+    $lotteryCount = 3;
     $date = date("Y-m-d");
-    $start = time();
-    $wait = $start + 5;
-    $next = $start + 10;
+    $start = time()+30;
+    $wait = $start + 10;
+    $next = $start + 30;
     $betResult = "未開獎";
 
     $connect = new Connect;
@@ -35,13 +35,15 @@ function lottery()
 
         $num++;
         $start = $next;
-        $wait = $start + 5;
-        $next = $start + 10;
+        $wait = $start + 10;
+        $next = $start + 30;
     }
+
+    sleep(30);
 
     $countRand = 3;
     $count = 0;
-    $gameCount = 5;
+    $gameCount = 3;
     $num = 0;
 
     while ($count < $gameCount) {
