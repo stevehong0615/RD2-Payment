@@ -10,7 +10,7 @@ function lottery()
     $lotteryCount = 3;
     $date = date("Y-m-d");
     $start = time()+30;
-    $wait = $start + 10;
+    $wait = $start + 20;
     $next = $start + 30;
     $betResult = "未開獎";
 
@@ -35,7 +35,7 @@ function lottery()
 
         $num++;
         $start = $next;
-        $wait = $start + 10;
+        $wait = $start + 20;
         $next = $start + 30;
     }
 
@@ -75,6 +75,72 @@ function lottery()
         $data->bindParam(':betResult', $betResult);
         $data->bindParam(':serial', $serialNumber);
         $data->execute();
+
+        // 兌獎
+        /*for ($i=0; $i < count($allBet); $i++) {
+            // 二字定位中中x
+            if ($allBet[$i]['bet_content_1'] == $rand[0] && $allBet[$i]['bet_content_2'] == $rand[1] && $allBet[$i]['date'] >= $start && $allBet[$i]['date'] <= $date) {
+                updateSite($allBet[$i]['id'], $resultSite);
+                $balance = searchAccountData($allBet[$i]['account']);
+                $money = searchBetIdData($allBet[$i]['id']);
+                $balance = $balance[0]['balance'] + $money[0]['bet_money'];
+                updateBalance($allBet[$i]['account'], $balance);
+            }
+
+            // 二字定位中x中
+            if ($allBet[$i]['bet_content_1'] == $rand[0] && $allBet[$i]['bet_content_3'] == $rand[2] && $allBet[$i]['date'] >= $start && $allBet[$i]['date'] <= $date) {
+                updateSite($allBet[$i]['id'], $resultSite);
+                $balance = searchAccountData($allBet[$i]['account']);
+                $money = searchBetIdData($allBet[$i]['id']);
+                $balance = $balance[0]['balance'] + $money[0]['bet_money'];
+                updateBalance($allBet[$i]['account'], $balance);
+            }
+
+            // 二字定位x中中
+            if ($allBet[$i]['bet_content_2'] == $rand[1] && $allBet[$i]['bet_content_3'] == $rand[2] && $allBet[$i]['date'] >= $start && $allBet[$i]['date'] <= $date) {
+                updateSite($allBet[$i]['id'], $resultSite);
+                $balance = searchAccountData($allBet[$i]['account']);
+                $money = searchBetIdData($allBet[$i]['id']);
+                $balance = $balance[0]['balance'] + $money[0]['bet_money'];
+                updateBalance($allBet[$i]['account'], $balance);
+            }
+
+            // 二字組合中中x
+            if (in_array($allBet[$i]['bet_content_1'], $betResult) && in_array($allBet[$i]['bet_content_2'], $betResult) && $allBet[$i]['date'] >= $start && $allBet[$i]['date'] <= $date) {
+                $result = searchBetIdData($allBet[$i]['id']);
+                if ($result[0]['result'] != "二字定位（贏）") {
+                    updateMix($allBet[$i]['id'], $resultMix);
+                    $balance = searchAccountData($allBet[$i]['account']);
+                    $money = searchBetIdData($allBet[$i]['id']);
+                    $balance = $balance[0]['balance'] + $money[0]['bet_money'];
+                    updateBalance($allBet[$i]['account'], $balance);
+                }
+            }
+
+            // 二字組合中X中
+            if (in_array($allBet[$i]['bet_content_1'], $betResult) && in_array($allBet[$i]['bet_content_3'], $betResult) && $allBet[$i]['date'] >= $start && $allBet[$i]['date'] <= $date) {
+                $result = searchBetIdData($allBet[$i]['id']);
+                if ($result[0]['result'] != "二字定位（贏）") {
+                    updateMix($allBet[$i]['id'], $resultMix);
+                    $balance = searchAccountData($allBet[$i]['account']);
+                    $money = searchBetIdData($allBet[$i]['id']);
+                    $balance = $balance[0]['balance'] + $money[0]['bet_money'];
+                    updateBalance($allBet[$i]['account'], $balance);
+                }
+            }
+
+            // 二字組合X中中
+            if (in_array($allBet[$i]['bet_content_2'], $betResult) && in_array($allBet[$i]['bet_content_3'], $betResult) && $allBet[$i]['date'] >= $start && $allBet[$i]['date'] <= $date) {
+                $result = searchBetIdData($allBet[$i]['id']);
+                if ($result[0]['result'] != "二字定位（贏）") {
+                    updateMix($allBet[$i]['id'], $resultMix);
+                    $balance = searchAccountData($allBet[$i]['account']);
+                    $money = searchBetIdData($allBet[$i]['id']);
+                    $balance = $balance[0]['balance'] + $money[0]['bet_money'];
+                    updateBalance($allBet[$i]['account'], $balance);
+                }
+            }
+        }*/
 
         // 搜尋時間
         $sql = "SELECT * FROM `game_result` WHERE `serial` = :serial";

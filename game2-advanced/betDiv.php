@@ -63,7 +63,10 @@ $rand = [$bet1, $bet2, $bet3];
 $betRand = json_encode($rand);
 $money = $_POST['money'];
 
-insertBet($account, $betRand, $betMoney, $time, $result);
+$serial = searchSerial($time);
+$serial = $serial['serial'];
+
+insertBet($account, $serial, $betRand, $betMoney, $time, $result);
 
 paymentTransOut($account, $time, $money);
 

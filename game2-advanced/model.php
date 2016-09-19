@@ -15,6 +15,21 @@ function searchResult()
     return $result;
 }
 
+// 期號搜尋開獎資料
+function searchSerialResult($serial)
+{
+    $connect = new Connect;
+
+    $sql = "SELECT * FROM `game_result` WHERE `serial` = :serial";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':serial', $serial);
+    $data->execute();
+    $result = $data->fetch();
+
+    return $result;
+}
+
 // 今日開獎資料
 function searchTodayResult($date)
 {
@@ -26,6 +41,22 @@ function searchTodayResult($date)
     $data->bindParam(':date', $date);
     $data->execute();
     $result = $data->fetchAll();
+
+    return $result;
+}
+
+// 搜尋期號
+function searchSerial($time)
+{
+    $connect = new Connect;
+
+    $sql = "SELECT `serial` FROM `game_result` WHERE `startdate` <= :time AND `waitdate` >= :time";
+
+    $data = $connect->db->prepare($sql);
+    $data->bindParam(':time', $time);
+    $data->bindParam(':time', $time);
+    $data->execute();
+    $result = $data->fetch();
 
     return $result;
 }
@@ -104,16 +135,17 @@ function searchBetData($account)
 }
 
 // 下注
-function insertBet($account, $betRand, $betMoney, $time, $result)
+function insertBet($account, $serial, $betRand, $betMoney, $time, $result)
 {
     $connect = new Connect;
 
     $sql = "INSERT INTO `game_money`
-        (`account`, `bet_content`, `bet_money`, `time`, `result`)
-        VALUES (:account, :betRand, :betMoney, :time, :result)";
+        (`account`, `serial`, `bet_content`, `bet_money`, `time`, `result`)
+        VALUES (:account, :serial, :betRand, :betMoney, :time, :result)";
 
     $data = $connect->db->prepare($sql);
     $data->bindParam(':account', $account);
+    $data->bindParam(':serial', $serial);
     $data->bindParam(':betRand', $betRand);
     $data->bindParam(':betMoney', $betMoney);
     $data->bindParam(':time', $time);
@@ -121,4 +153,18 @@ function insertBet($account, $betRand, $betMoney, $time, $result)
     $data->execute();
 
     return true;
+}
+
+// 下注資料
+function searchAllBetData()
+{
+    $connect = new Connect;
+
+    $sql = "SELECT * FROM `game_money`";
+
+    $data = $connect->db->prepare($sql);
+    $data->execute();
+    $result = $data->fetchAll();
+
+    return $result;
 }
