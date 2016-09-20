@@ -55,18 +55,16 @@ function lottery()
         mt_srand((double)microtime() * 1000000);
         $rand = Array();
 
-//        for ($i = 1; $i <= $countRand; $i++) {
-//            $randval = mt_rand(0, 9);
-//
-//            if (in_array($randval, $rand)) {
-//                $i--;
-//            } else {
-//                $rand[] = $randval;
-//            }
-//        }
-//
-//        $betResult = json_encode($rand);
-        $rand = [0, 1, 2];
+        for ($i = 1; $i <= $countRand; $i++) {
+            $randval = mt_rand(0, 9);
+
+            if (in_array($randval, $rand)) {
+                $i--;
+            } else {
+                $rand[] = $randval;
+            }
+        }
+
         $betResult = json_encode($rand);
 
         // 開獎

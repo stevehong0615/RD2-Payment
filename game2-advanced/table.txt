@@ -14,11 +14,10 @@ create table game_money
 (
     id int auto_increment not null primary key,
     account varchar(50) not null,
-    bet_content_1 varchar(10) not null,
-    bet_content_2 varchar(10) not null,
-    bet_content_3 varchar(10) not null,
+    serial varchar(50) not null,
+    bet_content varchar(50) not null,
     bet_money int not null,
-    date date not null,
+    time int not null,
     result varchar(50) not null,
     result_money int not null
 ) engine = InnoDB;
@@ -27,9 +26,11 @@ create table game_money
 create table game_result
 (
     id int auto_increment not null primary key,
-    bet_result_1 varchar(10) not null,
-    bet_result_2 varchar(10) not null,
-    bet_result_3 varchar(10) not null,
-    startdate date not null,
-    date date not null
+    serial varchar(50) not null,
+    bet_result varchar(50) not null,
+    startdate int not null,
+    waitdate int not null,
+    nextdate int not null,
+    updatetime timestamp not null,
+    today date not null
 ) engine = InnoDB;
