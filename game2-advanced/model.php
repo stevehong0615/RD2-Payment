@@ -46,15 +46,15 @@ function searchTodayResult($date)
 }
 
 // 搜尋期號
-function searchSerial($time)
+function searchSerial($time, $time2)
 {
     $connect = new Connect;
 
-    $sql = "SELECT `serial` FROM `game_result` WHERE `startdate` <= :time AND `waitdate` >= :time";
+    $sql = "SELECT `serial` FROM `game_result` WHERE `startdate` <= :time AND `waitdate` >= :time2";
 
     $data = $connect->db->prepare($sql);
     $data->bindParam(':time', $time);
-    $data->bindParam(':time', $time);
+    $data->bindParam(':time2', $time2);
     $data->execute();
     $result = $data->fetch();
 

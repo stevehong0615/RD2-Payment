@@ -75,7 +75,7 @@ $data = searchBetData($account);
     <div class = "table-responsive">
         <table class = "table">
             <tr>
-                <th>單號</th>
+                <th>兌獎期號</th>
                 <th>下注內容</th>
                 <th>金額</th>
                 <th>日期</th>
@@ -84,7 +84,7 @@ $data = searchBetData($account);
             </tr>
             <?php foreach ($data as $value) { ?>
                 <tr>
-                    <td><?php echo $value['id']; ?></td>
+                    <td><?php echo $value['serial']; ?></td>
                     <td>
                         <?php
                             $result = $value['bet_content'];

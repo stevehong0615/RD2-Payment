@@ -63,7 +63,8 @@ $rand = [$bet1, $bet2, $bet3];
 $betRand = json_encode($rand);
 $money = $_POST['money'];
 
-$serial = searchSerial($time);
+$time2 = $time;
+$serial = searchSerial($time, $time2);
 $serial = $serial['serial'];
 
 insertBet($account, $serial, $betRand, $betMoney, $time, $result);
